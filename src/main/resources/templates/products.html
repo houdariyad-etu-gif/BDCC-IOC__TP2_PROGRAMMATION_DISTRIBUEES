@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+    <div class="p-3" layout:fragment="content">
+        <div class="p-3">
+            <a class="btn btn-primary" th:href="@{/newProduct}">New Product</a>
+        </div>
+        <table class="table">
+            <thead>
+                <th>ID</th><th>Name</th><th>Price</th><th>Quantity</th>
+            </thead>
+            <tbody>
+                <tr th:each="p:${productList}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.price}"></td>
+                    <td th:text="${p.quantity}"></td>
+                    <td>
+                        <a class="btn btn-danger" onclick="return confirm('Etes-vous sur?')"
+                           th:href="@{/delete(id=${p.id})}">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
