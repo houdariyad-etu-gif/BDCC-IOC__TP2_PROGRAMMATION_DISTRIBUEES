@@ -50,7 +50,7 @@ public class ProductController {
     public String saveProduct(@Valid Product product, BindingResult bindingResult,Model model) {
         if(bindingResult.hasErrors()) return "new-product";
         productRepository.save(product);
-        return "redirect:/user/newProduct";
+        return "redirect:/user/index";
     }
     //si on utilise get la page index nous retourne la liste des produits
 }
