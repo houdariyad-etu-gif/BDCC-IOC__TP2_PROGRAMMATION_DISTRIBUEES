@@ -2,6 +2,7 @@ package net.riyad.bdccensetspringmvc.web;
 
 
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import net.riyad.bdccensetspringmvc.entities.Product;
 import net.riyad.bdccensetspringmvc.repository.ProductRepository;
@@ -9,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Binding;
 import java.util.List;
@@ -34,7 +32,7 @@ public class ProductController {
         return "redirect:/user/index";
     }
 
-    @GetMapping("/admin/delete")
+    @PostMapping("/admin/delete")
     public String delete(@RequestParam(name = "id") Long id){
         productRepository.deleteById(id);
         return "redirect:/user/index";
@@ -52,5 +50,20 @@ public class ProductController {
         productRepository.save(product);
         return "redirect:/user/index";
     }
-    //si on utilise get la page index nous retourne la liste des produits
+
+    @GetMapping("/notAuthorized")
+    public String notAuthorized(){
+        return "notAuthorized";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "login";
+    }
 }
