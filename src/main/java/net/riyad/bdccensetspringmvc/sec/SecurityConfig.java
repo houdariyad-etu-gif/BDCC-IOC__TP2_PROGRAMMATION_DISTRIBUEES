@@ -6,6 +6,9 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -22,12 +25,27 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         PasswordEncoder encoder = passwordEncoder();
+        System.out.println("========================");
+        String encodedPWD = encoder.encode("123456");
+        System.out.println(encodedPWD);
+        System.out.println("========================");
         return new InMemoryUserDetailsManager(
             User.withUsername("user1").password(passwordEncoder().encode("1234")).roles("USER").build(),
             User.withUsername("user2").password(passwordEncoder().encode("1234")).roles("USER").build(),
             User.withUsername("admin").password(passwordEncoder().encode("1234")).roles("USER","ADMIN").build()
         );
     }
+    //Bean
+    public UserDetailsService userDetailsService(){
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                // à compléter
+                return null;
+            }
+        };
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
